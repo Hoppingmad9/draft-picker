@@ -163,6 +163,7 @@ var playerTurn = 0;
 var picks = 10;
 var picked = [];
 var totalPicks;
+var pickPos = [];
 
 var playerRows = 4;
 var playerCols = 2;
@@ -289,7 +290,7 @@ function draw() {
 			}
 			fill('white');
 			strokeWeight(3)
-			textSize(thumbSize);
+			textSize(thumbSize*0.75);
 			let pName = players[i*playerCols+j][0];
 			let tWidth = textWidth(pName);
 			if (tWidth > playerWidth) {
