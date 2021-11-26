@@ -1,6 +1,7 @@
 var champs = ["./images/AatroxSquare.png",
 	"./images/AhriSquare.png",
 	"./images/AkaliSquare.png",
+	"./images/AkshanSquare.png",
 	"./images/AlistarSquare.png",
 	"./images/AmumuSquare.png",
 	"./images/AniviaSquare.png",
@@ -35,6 +36,7 @@ var champs = ["./images/AatroxSquare.png",
 	"./images/GnarSquare.png",
 	"./images/GragasSquare.png",
 	"./images/GravesSquare.png",
+	"./images/GwenSquare.png",
 	"./images/HecarimSquare.png",
 	"./images/HeimerdingerSquare.png",
 	"./images/IllaoiSquare.png",
@@ -132,6 +134,7 @@ var champs = ["./images/AatroxSquare.png",
 	"./images/VayneSquare.png",
 	"./images/VeigarSquare.png",
 	"./images/Vel%27KozSquare.png",
+	"./images/VexSquare.png",
 	"./images/ViegoSquare.png",
 	"./images/ViktorSquare.png",
 	"./images/ViSquare.png",
@@ -171,6 +174,9 @@ var playerPickRows = 2;
 var playerPickCols = 5;
 let thumbSize;
 
+const champCols = 11;
+const champRows = Math.ceil(champs.length/11);
+
 function preload() {
 	champs.forEach(element => imgs.push(loadImage(element)));
 }
@@ -178,59 +184,66 @@ function preload() {
 function setup() {
 	let minPlayers = 2;
 	let maxPlayers = 21;
-	numPlayers = prompt('How many players do you have? Min: '+minPlayers+'. Max: '+maxPlayers+' for nice formatting. In theory unlimited.');
-	for (let i = 0; i < numPlayers; i++) {
-		let playerNum = i+1;
-		players.push([prompt('Name of player '+playerNum+'.'),0]);
-	}
-	let minPicks = 1;
-	let maxPicks;
-	do {
-		if (numPlayers > 21) {
-			maxPicks = 3;
-			playerRows = Math.ceil(numPlayers/4);
-			playerCols = 4;
-			playerPickRows = 1;
-			playerPickCols = 3;
-		} else if (numPlayers > 14) {
-			maxPicks = 3;
-			playerRows = 7;
-			playerCols = 3;
-			playerPickRows = 1;
-			playerPickCols = 3;
-		} else if (numPlayers > 12) {
-			maxPicks = 5;
-			playerRows = 7;
-			playerCols = 2;
-			playerPickRows = 1;
-			playerPickCols = 5;
-		} else if (numPlayers > 8) {
-			maxPicks = 6;
-			playerRows = 4;
-			playerCols = 3;
-			playerPickRows = 2;
-			playerPickCols = 3;
-		} else {
-			maxPicks = 10;
-			playerRows = 4;
-			playerCols = 2;
-			playerPickRows = 2;
-			playerPickCols = 5;
+	const testing = true;
+	if (testing) {
+		numPlayers = 3;
+		players = [['Sam',0], ['Hello',0], ['World', 0]];
+		picks = 6;
+	} else {
+		numPlayers = prompt('How many players do you have? Min: '+minPlayers+'. Max: '+maxPlayers+' for nice formatting. In theory unlimited.');
+		for (let i = 0; i < numPlayers; i++) {
+			let playerNum = i+1;
+			players.push([prompt('Name of player '+playerNum+'.'),0]);
 		}
-		maxPicks = Math.min(Math.floor(154/numPlayers),maxPicks);
-		picks = prompt('How many picks each? Min: '+minPicks+'. Max: '+maxPicks+'.')
-		picks = Math.min(maxPicks,picks);
-		picks = Math.max(minPicks,picks);
-		console.log(picks);
-		console.log(Number.isInteger(picks));
-	} while (!Number.isInteger(picks));
+		let minPicks = 1;
+		let maxPicks;
+		do {
+			if (numPlayers > 21) {
+				maxPicks = 3;
+				playerRows = Math.ceil(numPlayers/4);
+				playerCols = 4;
+				playerPickRows = 1;
+				playerPickCols = 3;
+			} else if (numPlayers > 14) {
+				maxPicks = 3;
+				playerRows = 7;
+				playerCols = 3;
+				playerPickRows = 1;
+				playerPickCols = 3;
+			} else if (numPlayers > 12) {
+				maxPicks = 5;
+				playerRows = 7;
+				playerCols = 2;
+				playerPickRows = 1;
+				playerPickCols = 5;
+			} else if (numPlayers > 8) {
+				maxPicks = 6;
+				playerRows = 4;
+				playerCols = 3;
+				playerPickRows = 2;
+				playerPickCols = 3;
+			} else {
+				maxPicks = 10;
+				playerRows = 4;
+				playerCols = 2;
+				playerPickRows = 2;
+				playerPickCols = 5;
+			}
+			maxPicks = Math.min(Math.floor(154/numPlayers),maxPicks);
+			picks = prompt('How many picks each? Min: '+minPicks+'. Max: '+maxPicks+'.')
+			picks = Math.min(maxPicks,picks);
+			picks = Math.max(minPicks,picks);
+			console.log(picks);
+			console.log(Number.isInteger(picks));
+		} while (!Number.isInteger(picks));
+	}
 	createCanvas(windowWidth, windowHeight);
 	totalPicks = picks*numPlayers;
 
 	if (numPlayers > 21) {
-		thumbSize = Math.min(width*0.4/11,height/(playerRows*2));
+		thumbSize = Math.min(width*0.4/champCols,height/(playerRows*2));
 	} else {
-		thumbSize = Math.min(width*0.4/11,height/14);
+		thumbSize = Math.min(width*0.4/champCols,height/champRows);
 	}
 }
 
@@ -239,10 +252,13 @@ function draw() {
 	for (let i = 0; i < numPlayers; i++) {
 		players[i][1] = 0;
 	}
-	for (let i = 0; i < 14; i++){
-		for (let j = 0; j < 11; j++) {
-			image(imgs[i*11+j],j*thumbSize,i*thumbSize,thumbSize,thumbSize);
-			if (picked[i*11+j] >= 0) {
+	for (let i = 0; i < champRows; i++){
+		for (let j = 0; j < champCols; j++) {
+			if (i*champCols+j == champs.length) {
+				break;
+			}
+			image(imgs[i*champCols+j],j*thumbSize,i*thumbSize,thumbSize,thumbSize);
+			if (picked[i*champCols+j] >= 0) {
 				fill(50,50,50,220);
 				rect(j*thumbSize,i*thumbSize,thumbSize,thumbSize);
 				push();
@@ -251,7 +267,7 @@ function draw() {
 				} else {
 					translate(0.6*width,0);
 				}
-				let playerPick = picked[i*11+j];
+				let playerPick = picked[i*champCols+j];
 				let playerPickRow = Math.floor(players[playerPick][1]/playerPickCols);
 				let playerPickCol = Math.floor(players[playerPick][1]%playerPickCols);
 
@@ -264,7 +280,7 @@ function draw() {
 				}
 				let playerX = (playerPick%playerCols)*(playerWidth+thumbSize);
 				let playerY = Math.floor(playerPick/playerCols)*playerHeight+thumbSize;
-				image(imgs[i*11+j],playerX+playerPickCol*thumbSize,playerY+playerPickRow*thumbSize,thumbSize,thumbSize);
+				image(imgs[i*champCols+j],playerX+playerPickCol*thumbSize,playerY+playerPickRow*thumbSize,thumbSize,thumbSize);
 				pop();
 				players[playerPick][1]++;
 			}
@@ -311,7 +327,7 @@ function mouseClicked() {
 	if (mouseX < width*0.4 && totalPicks > 0) {
 		let pickRow = Math.floor(mouseY/thumbSize);
 		let pickCol = Math.floor(mouseX/thumbSize);
-		let pick = pickCol+pickRow*11;
+		let pick = pickCol+pickRow*champCols;
 		if (picked[pick] >= 0) {
 			console.log("picked");
 			return 0;
