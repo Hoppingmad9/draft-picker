@@ -193,8 +193,8 @@ function setup() {
 		numPlayers = prompt('How many players do you have? Min: '+minPlayers+'. Max: '+maxPlayers+' for nice formatting. In theory unlimited.');
 		for (let i = 0; i < numPlayers; i++) {
 			let playerNum = i+1;
-			// players.push([prompt('Name of player '+playerNum+'.'),0]);
-			players.push(['q', 0]);
+			players.push([prompt('Name of player '+playerNum+'.'),0]);
+			// players.push(['q', 0]);
 		}
 		let minPicks = 1;
 		let maxPicks;
