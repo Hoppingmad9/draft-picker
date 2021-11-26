@@ -193,7 +193,8 @@ function setup() {
 		numPlayers = prompt('How many players do you have? Min: '+minPlayers+'. Max: '+maxPlayers+' for nice formatting. In theory unlimited.');
 		for (let i = 0; i < numPlayers; i++) {
 			let playerNum = i+1;
-			players.push([prompt('Name of player '+playerNum+'.'),0]);
+			// players.push([prompt('Name of player '+playerNum+'.'),0]);
+			players.push(['q', 0]);
 		}
 		let minPicks = 1;
 		let maxPicks;
@@ -204,24 +205,24 @@ function setup() {
 				playerCols = 4;
 				playerPickRows = 1;
 				playerPickCols = 3;
-			} else if (numPlayers > 14) {
-				maxPicks = 3;
-				playerRows = 7;
-				playerCols = 3;
-				playerPickRows = 1;
-				playerPickCols = 3;
-			} else if (numPlayers > 12) {
+			} else if (numPlayers > 15) {
 				maxPicks = 5;
 				playerRows = 7;
-				playerCols = 2;
+				playerCols = 3;
 				playerPickRows = 1;
 				playerPickCols = 5;
-			} else if (numPlayers > 8) {
-				maxPicks = 6;
-				playerRows = 4;
+			} else if (numPlayers > 12) {
+				maxPicks = 10;
+				playerRows = 5;
 				playerCols = 3;
 				playerPickRows = 2;
-				playerPickCols = 3;
+				playerPickCols = 5;
+			} else if (numPlayers > 8) {
+				maxPicks = 10;
+				playerRows = 4;
+				playerCols = 3;
+				playerPickRows = 3;
+				playerPickCols = 5;
 			} else {
 				maxPicks = 10;
 				playerRows = 4;
@@ -262,22 +263,24 @@ function draw() {
 				fill(50,50,50,220);
 				rect(j*thumbSize,i*thumbSize,thumbSize,thumbSize);
 				push();
-				if (numPlayers > 21) {
-					translate(0.45*width,0);
-				} else {
-					translate(0.6*width,0);
-				}
+				// if (numPlayers > 21) {
+				// 	translate(0.45*width,0);
+				// } else {
+				// 	translate(0.6*width,0);
+				// }
+				translate(0.45*width,0);
 				let playerPick = picked[i*champCols+j];
 				let playerPickRow = Math.floor(players[playerPick][1]/playerPickCols);
 				let playerPickCol = Math.floor(players[playerPick][1]%playerPickCols);
 
 				let playerHeight = height/playerRows;
 				let playerWidth;
-				if (playerCols == 2) {
-					playerWidth = thumbSize*5;
-				} else {
-					playerWidth = thumbSize*3;
-				}
+				// if (playerCols == 2) {
+				// 	playerWidth = thumbSize*5;
+				// } else {
+				// 	playerWidth = thumbSize*3;
+				// }
+				playerWidth = thumbSize*5;
 				let playerX = (playerPick%playerCols)*(playerWidth+thumbSize);
 				let playerY = Math.floor(playerPick/playerCols)*playerHeight+thumbSize;
 				image(imgs[i*champCols+j],playerX+playerPickCol*thumbSize,playerY+playerPickRow*thumbSize,thumbSize,thumbSize);
@@ -287,18 +290,20 @@ function draw() {
 		}
 	}
 	push();
-	if (numPlayers > 21) {
-		translate(0.45*width,0);
-	} else {
-		translate(0.6*width,0);
-	}
+	// if (numPlayers > 21) {
+	// 	translate(0.45*width,0);
+	// } else {
+	// 	translate(0.6*width,0);
+	// }
+	translate(0.45*width,0);
 	let playerHeight = height/playerRows;
 	let playerWidth;
-	if (playerCols == 2) {
-		playerWidth = thumbSize*5;
-	} else {
-		playerWidth = thumbSize*3;
-	}
+	// if (playerCols == 2) {
+	// 	playerWidth = thumbSize*5;
+	// } else {
+	// 	playerWidth = thumbSize*3;
+	// }
+	playerWidth = thumbSize*5;
 	for (let i = 0; i < playerRows; i++) {
 		for (let j = 0; j < playerCols; j++) {
 			if ((i*playerCols+j) >= numPlayers) {
