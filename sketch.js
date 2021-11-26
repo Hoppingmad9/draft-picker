@@ -184,7 +184,7 @@ function preload() {
 function setup() {
 	let minPlayers = 2;
 	let maxPlayers = 21;
-	const testing = true;
+	const testing = false;
 	if (testing) {
 		numPlayers = 3;
 		players = [['Sam',0], ['Hello',0], ['World', 0]];
